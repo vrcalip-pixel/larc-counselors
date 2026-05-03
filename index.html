@@ -110,13 +110,21 @@
       pointer-events: none;
     }
 
-    /* Navy overlay — weighted left to protect headline contrast.
-       Strong navy on the left fades to lighter tint on the right where the video shines through more. */
+    /* Navy overlay — weighted left to protect headline contrast,
+       AND fades the video into the navy floor at the bottom for soft transition into the next section.
+       Stacks two gradients: horizontal contrast guard + vertical bottom fade. */
     .hero::after {
       content: "";
       position: absolute;
       inset: 0;
       background:
+        linear-gradient(
+          to bottom,
+          rgba(0, 34, 71, 0) 0%,
+          rgba(0, 34, 71, 0) 60%,
+          rgba(0, 34, 71, 0.6) 85%,
+          rgba(0, 34, 71, 1) 100%
+        ),
         linear-gradient(
           to right,
           rgba(0, 34, 71, 0.85) 0%,
@@ -234,7 +242,28 @@
     }
 
     /* ─── BIG IDEA SECTION ─── */
-    .big-idea { background: var(--cream); }
+    .big-idea {
+      background: var(--cream);
+      position: relative;
+    }
+    /* Soft top fade — emerges from the hero's navy floor into cream for a seamless transition */
+    .big-idea::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 34, 71, 0.5) 0%,
+        rgba(0, 34, 71, 0.15) 40%,
+        transparent 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+    .big-idea > .container { position: relative; z-index: 2; }
     .pull-quote {
       font-family: var(--font-display);
       font-size: clamp(1.5rem, 3.5vw, 2.25rem);
